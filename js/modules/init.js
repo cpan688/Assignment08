@@ -1,6 +1,18 @@
 // USE async/await TO LOAD THE JSON DATA AND RETURN IT BACK INTO THE buildGrid() FUNCTION
+export async function fetchEmployees() {
+	try {
+		const response = await fetch('/data/employees.json')
+        const data = await response.json();
+        const employees = data.employees;
+        return employees;
+	} catch (error) {
+		console.log(error.message);
+        return [];
+	}
+}
 
-/* Fetching the data from the module will return a Promise object.
-You will need to either use another async/await within the buildGrid() function 
-OR, you will need to use .then() to process the return JSON object */
 
+export async function init(buildGrid, empTable) {
+    const employees = await fetchEmployees();
+    await buildGrid(empTable, employees);
+}
